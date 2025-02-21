@@ -2,6 +2,11 @@
 
 El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
 
+## Instalacion
+En el directorio raiz, ejecutar:
+1) docker-compose build
+2) docker-compose up
+
 ## Qué queremos que hagas:
 
 - El Challenge consiste en crear una aplicación web sencilla que permita a los usuarios crear y mantener una lista de tareas.

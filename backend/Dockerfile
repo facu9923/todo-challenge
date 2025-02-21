@@ -2,7 +2,7 @@
 FROM python:3.10
 
 # Define el directorio de trabajo
-WORKDIR /backend
+WORKDIR /app
 
 # Copia los archivos al contenedor
 COPY requirements.txt .

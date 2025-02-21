@@ -7,11 +7,9 @@ services:
       - '8000:8000'
     volumes:
       - ./backend:/app
-      - ./backend/db:/app/db # Montar la carpeta donde se guarda la base de datos
-    depends_on:
-      - backend
+      - ./backend/db:/app/db
     environment:
-      - DATABASE_URL=sqlite:///app/db/db.sqlite3 # Ruta de la base de datos SQLite
+      - DATABASE_URL=sqlite:///app/db/db.sqlite3
 
   frontend:
     build: ./frontend
@@ -19,8 +17,10 @@ services:
       - '3000:3000'
     volumes:
       - ./frontend:/app
+      - /app/node_modules
     depends_on:
       - backend
+
 
 volumes:
   backend-db:
