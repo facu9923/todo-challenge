@@ -3,9 +3,14 @@
 El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
 
 ## Instalacion
+
 En el directorio raiz, ejecutar:
-1) docker-compose build
-2) docker-compose up
+
+1. docker-compose build
+2. docker-compose up
+
+python manage.py makemigrations?
+python manage.py migrate?
 
 ## Qué queremos que hagas:
 
