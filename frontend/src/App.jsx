@@ -1,33 +1,4 @@
-// import { useEffect, useState } from 'react';
-// function App() {
-//   const [data, setData] = useState([]);
-//   useEffect(() => {
-//     fetch('http://127.0.0.1:8000/api/')
-//       .then((response) => response.json())
-//       .then((data) => setData(data.tasks));
-//   }, []);
-//   console.log(data);
-//   return (
-//     <>
-//       <h1>API Data</h1>
-//       {data.length == 0 ? (
-//         <p>No hay datos disponibles</p>
-//       ) : (
-//         <ul>
-//           {data.map((item) => (
-//             <li key={item.id}>{item.title}</li>
-//           ))}
-//         </ul>
-//       )}
-//     </>
-//   );
-// }
-
-// export default App;
-
-///////////////////////////////////////////////
-
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import TaskList from './components/TaskList';
 
@@ -38,22 +9,55 @@ const App = () => {
   const [filterContent, setFilterContent] = useState('');
   const [filterDate, setFilterDate] = useState('');
 
+  const LoginOrRegister = () => {
+    const [showRegister, setShowRegister] = useState(false);
+
+    return (
+      <div>
+        {showRegister ? <RegisterForm /> : <LoginForm />}
+        <button onClick={() => setShowRegister(!showRegister)}>
+          {showRegister ? 'Ya tengo cuenta' : 'Registrarme'}
+        </button>
+      </div>
+    );
+  };
+  useEffect(() => {
+    fetch('http://127.0.0.1:8000/api/')
+      .then((response) => response.json())
+      .then((data) => setTasks(data.tasks));
+  }, []);
+
   const addTask = () => {
     if (!taskTitle.trim()) return;
     const newTask = {
-      id: Date.now(),
       title: taskTitle,
       description: taskDescription,
       completed: false,
-      date: new Date().toLocaleDateString(), // Cambié a solo fecha (sin hora)
+      date: new Date().toISOString().split('T')[0], // Cambié a solo fecha (sin hora)
     };
-    setTasks([...tasks, newTask]);
+
+    fetch('http://127.0.0.1:8000/api/add-task', {
+      method: 'POST', // Método HTTP
+      headers: {
+        'Content-Type': 'application/json', // Especificamos que enviamos JSON
+      },
+      body: JSON.stringify(newTask), // Convertimos el objeto a JSON
+    });
+    // setTasks([...tasks, newTask]);
+    window.location.reload();
     setTaskTitle('');
     setTaskDescription('');
   };
 
   const deleteTask = (taskId) => {
-    setTasks(tasks.filter((task) => task.id !== taskId));
+    fetch('http://127.0.0.1:8000/api/delete-task', {
+      method: 'POST', // Método HTTP
+      headers: {
+        'Content-Type': 'application/json', // Especificamos que enviamos JSON
+      },
+      body: JSON.stringify({ id: taskId }), // Convertimos el objeto a JSON
+    });
+    window.location.reload();
   };
 
   const toggleTaskCompletion = (taskId) => {
@@ -96,7 +100,7 @@ const App = () => {
         </div>
 
         <button className="add-btn" onClick={addTask}>
-          ➕ Agregar Tarea
+          Agregar tarea
         </button>
 
         {/* Filtros */}

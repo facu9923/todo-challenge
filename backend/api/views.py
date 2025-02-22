@@ -3,7 +3,9 @@ from .models import Task
 from django.http import HttpResponse, JsonResponse
 import json
 from django.views.decorators.csrf import csrf_exempt
+
 # Create your views here.
+
 def tasks(request):
     tasks = Task.objects.all().values()  # Trae todas las tareas en formato diccionario
     return JsonResponse({"tasks": list(tasks)})
