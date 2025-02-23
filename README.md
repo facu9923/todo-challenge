@@ -1,47 +1,72 @@
-# Invera ToDo-List Challenge (Python/Django Jr-SSr)
+# 🚀 Invera ToDo-List Challenge (Python/Django Jr-SSr)
 
-El propósito de esta prueba es conocer tu capacidad para crear una pequeña aplicación funcional en un límite de tiempo. A continuación, encontrarás las funciones, los requisitos y los puntos clave que debés tener en cuenta durante el desarrollo.
+¡Te presento mi solucion al desafío ToDo-List! 🎉
 
-## Instalacion
+Esta aplicación permite a los usuarios gestionar su lista de tareas de manera sencilla y eficiente, utilizando Python y Django en el backend, y React en el frontend. A continuación, encontrarás las instrucciones para levantar la aplicación y detalles sobre su funcionamiento.
 
-En el directorio raiz, ejecutar:
+## 🛠️ Instrucciones de Instalación
+
+En el directorio raiz ejecuta:
 
 1. docker-compose build --no-cache
+
+Luego, ejecuta:
+
 2. docker-compose up
 
 python manage.py makemigrations?
 python manage.py migrate?
 
-## Qué queremos que hagas:
+## 📋 Funcionalidades principales
 
-- El Challenge consiste en crear una aplicación web sencilla que permita a los usuarios crear y mantener una lista de tareas.
-- La entrega del resultado será en un nuevo fork de este repo y deberás hacer una pequeña demo del funcionamiento y desarrollo del proyecto ante un super comité de las más grandes mentes maestras de Invera, o a un par de devs, lo que sea más fácil de conseguir.
-- Podes contactarnos en caso que tengas alguna consulta.
+Esta aplicación permite al usuario realizar las siguientes acciones:
 
-## Objetivos:
+- Autenticarse: Los usuarios pueden registrarse e iniciar sesión para gestionar sus tareas.
+- Crear tareas: Los usuarios pueden agregar nuevas tareas a su lista.
+- Eliminar tareas: Los usuarios pueden eliminar tareas que ya no necesiten.
+- Marcar tareas como completadas: Los usuarios pueden marcar las tareas que han finalizado.
+- Ver tareas: Los usuarios pueden ver todas las tareas que han creado, con la posibilidad de filtrarlas por fecha o contenido.
+- Filtrar tareas: Los usuarios pueden buscar tareas por la fecha de creación o por palabras clave dentro de la tarea.
 
-El usuario de la aplicación tiene que ser capaz de:
+## 🧑‍💻 Estructura del Proyecto
 
-- Autenticarse
-- Crear una tarea
-- Eliminar una tarea
-- Marcar tareas como completadas
-- Poder ver una lista de todas las tareas existentes
-- Filtrar/buscar tareas por fecha de creación y/o por el contenido de la misma
+Este proyecto está compuesto por dos partes principales:
 
-## Qué evaluamos:
+### Backend (Django)
 
-- Desarrollo utilizando Python, Django. No es necesario crear un Front-End, pero sí es necesario tener una API que permita cumplir con los objetivos de arriba.
-- Uso de librerías y paquetes estandares que reduzcan la cantidad de código propio añadido.
-- Calidad y arquitectura de código. Facilidad de lectura y mantenimiento del código. Estándares seguidos.
-- [Bonus] Manejo de logs.
-- [Bonus] Creación de tests (unitarias y de integración)
-- [Bonus] Unificar la solución propuesta en una imagen de Docker por repositorio para poder ser ejecutada en cualquier ambiente (si aplica para full stack).
+- API: Toda la lógica de la aplicación está disponible a través de una API RESTful utilizando Django REST Framework.
+- Modelos: Se han creado modelos para gestionar las tareas y los usuarios.
+- Autenticación: Utiliza el sistema de autenticación integrado de Django para registrar, iniciar sesión y gestionar sesiones de usuario.
 
-## Requerimientos de entrega:
+### Frontend (React)
 
-- Hacer un fork del proyecto y pushearlo en github. Puede ser privado.
-- La solución debe correr correctamente.
-- El Readme debe contener todas las instrucciones para poder levantar la aplicación, en caso de ser necesario, y explicar cómo se usa.
-- Disponibilidad para realizar una pequeña demo del proyecto al finalizar el challenge.
-- Tiempo para la entrega: Aproximadamente 7 días.
+- UI: La interfaz de usuario está construida utilizando React.
+- Comunicación con la API: El frontend interactúa con la API Django para realizar acciones como la creación, eliminación y actualización de tareas.
+- Estado de la aplicación: Se maneja utilizando el hook useState y se hace uso de axios para realizar solicitudes HTTP a la API.
+
+## 🎯 Objetivos y Evaluación
+
+Durante el desarrollo del proyecto, se evaluaron los siguientes aspectos:
+
+- Desarrollo con Python/Django y React: La aplicación utiliza Django para el backend y React para el frontend.
+- Uso de librerías estándar: Se usaron librerías y paquetes estándar como django-rest-framework para la API y fetch para las solicitudes HTTP.
+- Arquitectura y calidad del código: El código está organizado de forma modular y fácil de mantener.
+- Manejo de logs: Se implementaron logs para registrar actividades relevantes en el sistema.
+- Docker: La solución está completamente dockerizada, lo que facilita la ejecución en cualquier entorno.
+
+## 🧑‍💼 Tecnologías Utilizadas
+
+### Backend:
+
+- Python 3.8
+- Django 3.2
+- Django REST Framework para la creación de la API
+- SQLite (puedes cambiarla por PostgreSQL si lo deseas)
+
+### Frontend:
+
+- React para la creación de la interfaz de usuario
+- Fetch para las solicitudes HTTP
+- Material-UI (o cualquier otra librería de tu elección para el diseño)
+
+## Docker para la contenedorización
