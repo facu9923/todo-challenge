@@ -25,7 +25,17 @@ const App = () => {
         ) : (
           <LoginForm setIsAuthenticated={setIsAuthenticated} />
         )}
-        <button onClick={() => setShowRegister(!showRegister)}>
+
+        <button
+          className="login-button-container"
+          style={{
+            width: '320px',
+            marginLeft: '20px',
+            marginTop: '0px',
+            marginBottom: '20px',
+          }}
+          onClick={() => setShowRegister(!showRegister)}
+        >
           {showRegister ? 'Ya tengo cuenta' : 'Registrarme'}
         </button>
       </div>

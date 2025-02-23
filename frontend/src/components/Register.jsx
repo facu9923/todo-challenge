@@ -1,5 +1,5 @@
-// src/components/Register.jsx
 import React, { useState } from 'react';
+import './Login.css'; // Importamos el archivo CSS
 
 const Register = () => {
   const [username, setUsername] = useState('');
@@ -8,15 +8,12 @@ const Register = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     const data = { username, email, password };
 
     try {
       const response = await fetch('http://localhost:8000/api/register/', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data),
       });
 
@@ -32,27 +29,35 @@ const Register = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        placeholder="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Email"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <button type="submit">Register</button>
-    </form>
+    <div className="login-container">
+      <form onSubmit={handleSubmit} className="login-form">
+        <h2>Register</h2>
+        <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+          className="login-input"
+        />
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="login-input"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="login-input"
+        />
+        <div className="login-button-container">
+          <button type="submit">Registrar</button>
+        </div>
+      </form>
+    </div>
   );
 };
 
