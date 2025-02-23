@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import './App.css';
 import TaskList from './components/TaskList';
+import LoginForm from './components/Login';
+import RegisterForm from './components/Register';
+import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 const App = () => {
   const [tasks, setTasks] = useState([]);
@@ -8,24 +11,34 @@ const App = () => {
   const [taskDescription, setTaskDescription] = useState('');
   const [filterContent, setFilterContent] = useState('');
   const [filterDate, setFilterDate] = useState('');
+  const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticación
+  const navigate = useNavigate();
 
+  // Componente para mostrar Login o Register
   const LoginOrRegister = () => {
     const [showRegister, setShowRegister] = useState(false);
 
     return (
       <div>
-        {showRegister ? <RegisterForm /> : <LoginForm />}
+        {showRegister ? (
+          <RegisterForm setIsAuthenticated={setIsAuthenticated} />
+        ) : (
+          <LoginForm setIsAuthenticated={setIsAuthenticated} />
+        )}
         <button onClick={() => setShowRegister(!showRegister)}>
           {showRegister ? 'Ya tengo cuenta' : 'Registrarme'}
         </button>
       </div>
     );
   };
+
   useEffect(() => {
-    fetch('http://127.0.0.1:8000/api/')
-      .then((response) => response.json())
-      .then((data) => setTasks(data.tasks));
-  }, []);
+    if (isAuthenticated) {
+      fetch('http://127.0.0.1:8000/api/')
+        .then((response) => response.json())
+        .then((data) => setTasks(data.tasks));
+    }
+  }, [isAuthenticated]);
 
   const addTask = () => {
     if (!taskTitle.trim()) return;
@@ -43,7 +56,6 @@ const App = () => {
       },
       body: JSON.stringify(newTask), // Convertimos el objeto a JSON
     });
-    // setTasks([...tasks, newTask]);
     window.location.reload();
     setTaskTitle('');
     setTaskDescription('');
@@ -77,64 +89,92 @@ const App = () => {
     return matchesContent && matchesDate;
   });
 
+  // Función para cerrar sesión
+  const handleLogout = () => {
+    setIsAuthenticated(false);
+    navigate('/login'); // Redirige a la página de login
+  };
+
   return (
     <div className="container">
       <div className="task-app">
-        <h1>📝 Lista de Tareas</h1>
+        <Routes>
+          <Route path="/login" element={<LoginOrRegister />} />
+          <Route path="/register" element={<LoginOrRegister />} />
+          <Route
+            path="/"
+            element={
+              isAuthenticated ? (
+                <>
+                  <h1>📝 Lista de Tareas</h1>
 
-        <div className="task-input">
-          <input
-            type="text"
-            value={taskTitle}
-            onChange={(e) => setTaskTitle(e.target.value)}
-            placeholder="Título..."
+                  {/* Botón de cerrar sesión */}
+                  <button onClick={handleLogout} className="logout-btn">
+                    Cerrar sesión
+                  </button>
+
+                  <div className="task-input">
+                    <input
+                      type="text"
+                      value={taskTitle}
+                      onChange={(e) => setTaskTitle(e.target.value)}
+                      placeholder="Título..."
+                    />
+                  </div>
+
+                  <div className="task-input">
+                    <textarea
+                      value={taskDescription}
+                      onChange={(e) => setTaskDescription(e.target.value)}
+                      placeholder="Descripción..."
+                    ></textarea>
+                  </div>
+
+                  <button className="add-btn" onClick={addTask}>
+                    Agregar tarea
+                  </button>
+
+                  {/* Filtros */}
+                  <div className="filters">
+                    {/* Filtro por contenido */}
+                    <div className="filter-input">
+                      <label htmlFor="content-filter">
+                        Filtrar por contenido:
+                      </label>
+                      <input
+                        type="text"
+                        id="content-filter"
+                        placeholder="Buscar tareas..."
+                        value={filterContent}
+                        onChange={(e) => setFilterContent(e.target.value)}
+                      />
+                    </div>
+
+                    {/* Filtro por fecha */}
+                    <div className="filter-input">
+                      <label htmlFor="date-filter">Filtrar por fecha:</label>
+                      <input
+                        type="date"
+                        id="date-filter"
+                        value={filterDate}
+                        onChange={(e) => setFilterDate(e.target.value)}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Renderizado de las tareas */}
+                  <TaskList
+                    tasks={filteredTasks}
+                    deleteTask={deleteTask}
+                    toggleTaskCompletion={toggleTaskCompletion}
+                  />
+                </>
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
           />
-        </div>
-
-        <div className="task-input">
-          <textarea
-            value={taskDescription}
-            onChange={(e) => setTaskDescription(e.target.value)}
-            placeholder="Descripción..."
-          ></textarea>
-        </div>
-
-        <button className="add-btn" onClick={addTask}>
-          Agregar tarea
-        </button>
-
-        {/* Filtros */}
-        <div className="filters">
-          {/* Filtro por contenido */}
-          <div className="filter-input">
-            <label htmlFor="content-filter">Filtrar por contenido:</label>
-            <input
-              type="text"
-              id="content-filter"
-              placeholder="Buscar tareas..."
-              value={filterContent}
-              onChange={(e) => setFilterContent(e.target.value)}
-            />
-          </div>
-
-          {/* Filtro por fecha */}
-          <div className="filter-input">
-            <label htmlFor="date-filter">Filtrar por fecha:</label>
-            <input
-              type="date"
-              id="date-filter"
-              value={filterDate}
-              onChange={(e) => setFilterDate(e.target.value)}
-            />
-          </div>
-        </div>
-
-        {/* Renderizado de las tareas */}
-        <TaskList
-          tasks={filteredTasks}
-          deleteTask={deleteTask}
-          toggleTaskCompletion={toggleTaskCompletion}
-        />
+        </Routes>
       </div>
     </div>
   );
