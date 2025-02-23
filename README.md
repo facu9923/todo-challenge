@@ -14,9 +14,6 @@ Luego, ejecuta:
 
 2. docker-compose up
 
-python manage.py makemigrations?
-python manage.py migrate?
-
 ## 📋 Funcionalidades principales
 
 Esta aplicación permite al usuario realizar las siguientes acciones:
@@ -58,8 +55,8 @@ Durante el desarrollo del proyecto, se evaluaron los siguientes aspectos:
 
 ### Backend:
 
-- Python 3.8
-- Django 3.2
+- Python
+- Django
 - Django REST Framework para la creación de la API
 - SQLite (puedes cambiarla por PostgreSQL si lo deseas)
 
