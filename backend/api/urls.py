@@ -1,6 +1,9 @@
 from django.urls import path
 from . import views
 from .views import RegisterView, LoginView
+
+# Aquí definimos las rutas de la API
+# Cada ruta tiene una función asociada en el archivo views.py
 urlpatterns = [
     path('', views.tasks, name='tasks'),
     path('add-task', views.add_task, name='add-task'),

@@ -1,9 +1,11 @@
+/* estilos para la apgina principal para que quede un poco mas bonito */
 body {
   font-family: 'Roboto', sans-serif;
   margin: 0;
   padding: 0;
   background: #f5efeb;
 }
+
 /* Contenedor principal */
 .container {
   margin: 30px 20px;

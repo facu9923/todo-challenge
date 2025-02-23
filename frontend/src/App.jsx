@@ -6,13 +6,13 @@ import RegisterForm from './components/Register';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
 const App = () => {
-  const [tasks, setTasks] = useState([]);
-  const [taskTitle, setTaskTitle] = useState('');
-  const [taskDescription, setTaskDescription] = useState('');
-  const [filterContent, setFilterContent] = useState('');
-  const [filterDate, setFilterDate] = useState('');
+  const [tasks, setTasks] = useState([]); // Estado para almacenar las tareas
+  const [taskTitle, setTaskTitle] = useState(''); // Estado para el título de la tarea
+  const [taskDescription, setTaskDescription] = useState(''); // Estado para la descripción de la tarea
+  const [filterContent, setFilterContent] = useState(''); // Estado para el filtro de contenido
+  const [filterDate, setFilterDate] = useState(''); // Estado para el filtro de fecha
   const [isAuthenticated, setIsAuthenticated] = useState(false); // Estado de autenticación
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // Hook para redirigir a otras rutas
 
   // Componente para mostrar Login o Register
   const LoginOrRegister = () => {
@@ -40,6 +40,7 @@ const App = () => {
     );
   };
 
+  // Cargar las tareas desde el servidor al iniciar sesión
   useEffect(() => {
     if (isAuthenticated) {
       fetch('http://127.0.0.1:8000/api/')
@@ -48,6 +49,7 @@ const App = () => {
     }
   }, [isAuthenticated]);
 
+  // Función para agregar una tarea
   const addTask = () => {
     if (!taskTitle.trim()) return;
 
@@ -80,6 +82,7 @@ const App = () => {
       .catch((error) => console.error('Error al agregar la tarea:', error));
   };
 
+  // Función para eliminar una tarea
   const deleteTask = (taskId) => {
     fetch('http://127.0.0.1:8000/api/delete-task', {
       method: 'POST',
@@ -99,6 +102,7 @@ const App = () => {
       .catch((error) => console.error('Error al eliminar la tarea:', error));
   };
 
+  // Función para marcar una tarea como completada o pendiente
   const toggleTaskCompletion = (taskId) => {
     setTasks(
       tasks.map((task) =>

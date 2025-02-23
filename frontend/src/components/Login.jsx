@@ -3,14 +3,16 @@ import { useNavigate } from 'react-router-dom';
 import './Login.css'; // Importamos el archivo CSS
 
 const Login = ({ setIsAuthenticated }) => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const navigate = useNavigate();
+  const [username, setUsername] = useState(''); // Nuevo estado para el nombre de usuario
+  const [password, setPassword] = useState(''); // Nuevo estado para la contraseña
+  const [errorMessage, setErrorMessage] = useState(''); // Nuevo estado para el mensaje de error
+  const navigate = useNavigate(); // Hook para navegar entre rutas
 
+  // Función para enviar los datos del formulario al backend
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setErrorMessage(''); // Limpiar el mensaje de error antes de intentar loguearse
     const data = { username, password };
-
     try {
       const response = await fetch('http://localhost:8000/api/login/', {
         method: 'POST',
@@ -19,14 +21,14 @@ const Login = ({ setIsAuthenticated }) => {
       });
 
       if (!response.ok) {
-        throw new Error('Invalid credentials');
+        throw new Error('Credenciales incorrectas');
       }
 
       const result = await response.json();
       setIsAuthenticated(true);
       navigate('/');
     } catch (error) {
-      console.error('Error:', error);
+      setErrorMessage(error.message); // Mostrar el mensaje de error en la UI
     }
   };
 
@@ -48,6 +50,8 @@ const Login = ({ setIsAuthenticated }) => {
           onChange={(e) => setPassword(e.target.value)}
           className="login-input"
         />
+        {errorMessage && <p className="error-message">{errorMessage}</p>}{' '}
+        {/* Muestra el error si existe */}
         <div className="login-button-container">
           <button type="submit">Login</button>
         </div>
