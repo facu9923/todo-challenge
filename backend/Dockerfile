@@ -14,5 +14,5 @@ COPY . .
 # Expone el puerto 8000
 EXPOSE 8000
 
-# Comando para correr Django
-CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]
+# Comando para correr Django con migraciones
+CMD ["sh", "-c", "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"]

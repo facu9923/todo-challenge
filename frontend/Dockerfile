@@ -1,13 +1,16 @@
-FROM node:18
+FROM node:20
 
 WORKDIR /app
 
 # Copiamos solo los archivos de configuración primero
 COPY package*.json ./
 
-RUN npm install
+# Instalamos las dependencias necesarias y limpiamos la caché
+RUN npm install -g npm@latest && \
+    npm install @rollup/rollup-linux-x64-gnu && \
+    npm ci
 
-# Copiamos el resto de los archivos
+# Copia el resto de los archivos
 COPY . .
 
 EXPOSE 3000
