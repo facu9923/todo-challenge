@@ -33,7 +33,7 @@ const Login = ({ setIsAuthenticated }) => {
   return (
     <div className="login-container">
       <form onSubmit={handleSubmit} className="login-form">
-        <h2>Login</h2>
+        <h2>To Do - List Challenge</h2>
         <input
           type="text"
           placeholder="Username"

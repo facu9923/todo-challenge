@@ -6,7 +6,7 @@ body {
 }
 /* Contenedor principal */
 .container {
-  margin: 20px 20px;
+  margin: 30px 20px;
   display: flex;
   justify-content: center;
   width: 100%;
@@ -108,13 +108,31 @@ h1 {
   background-color: #343f44;
 }
 
+/* Botón de agregar tarea */
+.logout-btn {
+  position: absolute;
+  top: 30px;
+  right: 50px;
+  background-color: #d9534f;
+  color: white;
+  border: none;
+  padding: 10px 15px;
+  font-size: 14px;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.logout-btn:hover {
+  background-color: #c9302c;
+}
+
 .toggle-btn {
-  background: #007bff;
+  background: #74cf93;
   color: white;
 }
 
 .toggle-btn:hover {
-  background: #0056b3;
+  background: #3c6b4c;
 }
 
 .delete-btn {

@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import './Login.css'; // Importamos el archivo CSS
+import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import './Login.css';
 
 const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const navigate = useNavigate(); // Hook para redirigir
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -23,6 +25,9 @@ const Register = () => {
 
       const result = await response.json();
       console.log('User registered:', result);
+
+      // Redirigir a la pantalla de login
+      navigate('/login');
     } catch (error) {
       console.error('Error:', error);
     }

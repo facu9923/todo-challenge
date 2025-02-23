@@ -20,7 +20,7 @@
 .login-input {
   width: 100%;
   padding: 10px;
-  margin-bottom: 10px;
+  margin-bottom: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   font-size: 16px;
@@ -33,21 +33,23 @@
 
 .login-button-container {
   width: 100%;
-  padding: 10px;
+  padding: 0; /* Elimina el padding para evitar espacio extra */
   margin-top: 10px;
   background-color: #567c8d;
-  color: white;
   border: 1px solid #ccc;
   border-radius: 5px;
-  cursor: pointer;
-  font-size: 16px;
+  display: flex; /* Usa flexbox */
 }
+
 .login-button-container button {
   background-color: transparent;
   border: none;
+  width: 100%;
+  padding: 10px; /* Añade padding al botón en lugar del div */
   color: white;
   font-size: 16px;
   cursor: pointer;
+  text-align: center;
 }
 
 .login-button-container:hover {

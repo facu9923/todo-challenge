@@ -25,19 +25,17 @@ const App = () => {
         ) : (
           <LoginForm setIsAuthenticated={setIsAuthenticated} />
         )}
-
-        <button
+        <div
           className="login-button-container"
           style={{
-            width: '320px',
-            marginLeft: '20px',
-            marginTop: '0px',
-            marginBottom: '20px',
+            width: '300px',
+            marginLeft: '150px',
           }}
-          onClick={() => setShowRegister(!showRegister)}
         >
-          {showRegister ? 'Ya tengo cuenta' : 'Registrarme'}
-        </button>
+          <button type="submit" onClick={() => setShowRegister(!showRegister)}>
+            {showRegister ? 'Volver' : 'Registrarme'}
+          </button>
+        </div>
       </div>
     );
   };
@@ -52,34 +50,53 @@ const App = () => {
 
   const addTask = () => {
     if (!taskTitle.trim()) return;
+
     const newTask = {
       title: taskTitle,
       description: taskDescription,
       completed: false,
-      date: new Date().toISOString().split('T')[0], // Cambié a solo fecha (sin hora)
+      date: new Date().toISOString().split('T')[0], // Solo la fecha
     };
 
     fetch('http://127.0.0.1:8000/api/add-task', {
-      method: 'POST', // Método HTTP
-      headers: {
-        'Content-Type': 'application/json', // Especificamos que enviamos JSON
-      },
-      body: JSON.stringify(newTask), // Convertimos el objeto a JSON
-    });
-    window.location.reload();
-    setTaskTitle('');
-    setTaskDescription('');
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(newTask),
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        console.log('Respuesta del backend:', data); // Debug
+        if (!data.id) {
+          // Si la respuesta no contiene la tarea, recargamos desde el servidor
+          fetch('http://127.0.0.1:8000/api/')
+            .then((response) => response.json())
+            .then((newData) => setTasks(newData.tasks));
+        } else {
+          setTasks((prevTasks) => [...prevTasks, data]);
+        }
+        setTaskTitle('');
+        setTaskDescription('');
+      })
+      .catch((error) => console.error('Error al agregar la tarea:', error));
   };
 
   const deleteTask = (taskId) => {
     fetch('http://127.0.0.1:8000/api/delete-task', {
-      method: 'POST', // Método HTTP
-      headers: {
-        'Content-Type': 'application/json', // Especificamos que enviamos JSON
-      },
-      body: JSON.stringify({ id: taskId }), // Convertimos el objeto a JSON
-    });
-    window.location.reload();
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ id: taskId }),
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error('Error al eliminar la tarea');
+
+        // Verifica si la respuesta tiene contenido antes de parsear JSON
+        return response.status === 204 ? null : response.json();
+      })
+      .then(() => {
+        // Filtramos la tarea eliminada sin necesidad de recargar la página
+        setTasks((prevTasks) => prevTasks.filter((task) => task.id !== taskId));
+      })
+      .catch((error) => console.error('Error al eliminar la tarea:', error));
   };
 
   const toggleTaskCompletion = (taskId) => {
@@ -93,9 +110,11 @@ const App = () => {
   // Filtrar tareas según el contenido y la fecha
   const filteredTasks = tasks.filter((task) => {
     const matchesContent =
-      task.title.toLowerCase().includes(filterContent.toLowerCase()) ||
-      task.description.toLowerCase().includes(filterContent.toLowerCase());
-    const matchesDate = filterDate ? task.date === filterDate : true; // Compara solo si hay fecha
+      task.title?.toLowerCase().includes(filterContent.toLowerCase()) ||
+      task.description?.toLowerCase().includes(filterContent.toLowerCase());
+
+    const matchesDate = filterDate ? task.date?.startsWith(filterDate) : true;
+
     return matchesContent && matchesDate;
   });
 
@@ -117,9 +136,7 @@ const App = () => {
               isAuthenticated ? (
                 <>
                   <h1>📝 Lista de Tareas</h1>
-
-                  {/* Botón de cerrar sesión */}
-                  <button onClick={handleLogout} className="logout-btn">
+                  <button className="logout-btn" onClick={handleLogout}>
                     Cerrar sesión
                   </button>
 
