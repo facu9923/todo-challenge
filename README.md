@@ -6,7 +6,7 @@ El propósito de esta prueba es conocer tu capacidad para crear una pequeña apl
 
 En el directorio raiz, ejecutar:
 
-1. docker-compose build
+1. docker-compose build --no-cache
 2. docker-compose up
 
 python manage.py makemigrations?
