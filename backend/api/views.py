@@ -36,6 +36,7 @@ class LoginView(APIView):
 
 # Devuelve todas las tareas en formato JSON
 def tasks(request):
+    """Devuelve todas las tareas en formato JSON"""
     logger.info("Se llamó a tasks para mostrar todas las tareas con request %s", request)
     tasks = Task.objects.all().values()  # Trae todas las tareas en formato diccionario
     print(f'listas de tareas: {list(tasks)}')
@@ -54,6 +55,7 @@ def model_to_dict(task):
 # Recibe una solicitud POST con los datos de una tarea, crea la tarea y la devuelve en formato JSON
 @csrf_exempt
 def add_task(request):
+    """Recibe una solicitud POST con los datos de una tarea, crea la tarea y la devuelve en formato JSON"""
     logger.info("Se llamó a add_task para agregar una nueva tarea con request %s", request)
     data = json.loads(request.body)
     task = Task.objects.create(
@@ -71,6 +73,7 @@ def add_task(request):
 # Recibe una solicitud POST con el id de una tarea, la elimina y devuelve un código de estado 204
 @csrf_exempt
 def delete_task(request):
+    """Recibe una solicitud POST con el id de una tarea, la elimina y devuelve un código de estado 204"""
     logger.info("Se llamó a delete_task para eliminar tareas con request %s", request)
     data = json.loads(request.body)
     task = Task.objects.get(id=data["id"])
@@ -81,6 +84,7 @@ def delete_task(request):
 # Recibe una solicitud POST con los datos de una tarea, actualiza la tarea y la devuelve en formato JSON
 @csrf_exempt
 def update_task(request):
+    """Recibe una solicitud POST con los datos de una tarea, actualiza la tarea y la devuelve en formato JSON"""
     logger.info("Se llamó a update_task para actualizar una tarea con request %s", request)
     data = json.loads(request.body)
     task = Task.objects.get(id=data["id"])
