@@ -8,7 +8,9 @@ from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from .serializers import RegisterSerializer, LoginSerializer
+import logging
 
+logger = logging.getLogger(__name__)
 # Recibe una solicitud POST con los datos del usuario
 class RegisterView(APIView):
     def post(self, request):
@@ -34,6 +36,7 @@ class LoginView(APIView):
 
 # Devuelve todas las tareas en formato JSON
 def tasks(request):
+    logger.info("Se llamó a tasks para mostrar todas las tareas con request %s", request)
     tasks = Task.objects.all().values()  # Trae todas las tareas en formato diccionario
     print(f'listas de tareas: {list(tasks)}')
     return JsonResponse({"tasks": list(tasks)})
@@ -51,6 +54,7 @@ def model_to_dict(task):
 # Recibe una solicitud POST con los datos de una tarea, crea la tarea y la devuelve en formato JSON
 @csrf_exempt
 def add_task(request):
+    logger.info("Se llamó a add_task para agregar una nueva tarea con request %s", request)
     data = json.loads(request.body)
     task = Task.objects.create(
         title=data["title"],
@@ -67,6 +71,7 @@ def add_task(request):
 # Recibe una solicitud POST con el id de una tarea, la elimina y devuelve un código de estado 204
 @csrf_exempt
 def delete_task(request):
+    logger.info("Se llamó a delete_task para eliminar tareas con request %s", request)
     data = json.loads(request.body)
     task = Task.objects.get(id=data["id"])
     print(f'eliminando tarea: {model_to_dict(task)}')
@@ -76,6 +81,7 @@ def delete_task(request):
 # Recibe una solicitud POST con los datos de una tarea, actualiza la tarea y la devuelve en formato JSON
 @csrf_exempt
 def update_task(request):
+    logger.info("Se llamó a update_task para actualizar una tarea con request %s", request)
     data = json.loads(request.body)
     task = Task.objects.get(id=data["id"])
     task.title = data["title"]
